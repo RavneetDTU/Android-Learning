@@ -3,12 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     tools:context="com.example.ravneet.fetching_json_data.ToDoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/imgview_todo"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TODO Activity"/>
+        android:text="TASK"
+        android:id="@+id/tv_todo_task"/>
+
+    </LinearLayout>
 
 </LinearLayout>
