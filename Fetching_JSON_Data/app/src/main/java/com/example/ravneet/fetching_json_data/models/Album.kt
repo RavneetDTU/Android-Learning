@@ -1,11 +1,12 @@
 package com.example.ravneet.fetching_json_data.models
 
+import android.support.v7.widget.DialogTitle
+import java.util.*
+
 /**
  * Created by ravneet on 1/7/17.
  */
-data class User(
+data class Album(
         val id:Int,
-        val username:String,
-        val phone:String,
-        val email:String
+        val title:String
 )

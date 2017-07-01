@@ -54,7 +54,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
         final User thisuser = users.get(position);
 
         holder.tvusername.setText(thisuser.getUsername());
-        holder.tvtel.setText(thisuser.getTel());
+        holder.tvtel.setText(thisuser.getPhone());
         holder.tvemail.setText(thisuser.getEmail());
         holder.thisview.setOnClickListener(new View.OnClickListener() {
             @Override

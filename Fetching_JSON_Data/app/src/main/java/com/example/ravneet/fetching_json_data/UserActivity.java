@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.ravneet.fetching_json_data.API.UserAPI;
 import com.example.ravneet.fetching_json_data.Adapters.UserAdapter;
 import com.example.ravneet.fetching_json_data.models.User;
 
@@ -33,6 +34,8 @@ public class UserActivity extends AppCompatActivity {
                 .baseUrl("https://jsonplaceholder.typicode.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        UserAPI.
 
     }
 }

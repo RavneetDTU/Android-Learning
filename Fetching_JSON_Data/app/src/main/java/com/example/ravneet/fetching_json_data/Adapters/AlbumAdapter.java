@@ -1,9 +1,7 @@
 package com.example.ravneet.fetching_json_data.Adapters;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.ravneet.fetching_json_data.Interface.OnItemClickListner;
 import com.example.ravneet.fetching_json_data.R;
-import com.example.ravneet.fetching_json_data.models.Post;
+import com.example.ravneet.fetching_json_data.models.Album;
 
 import java.util.ArrayList;
 
@@ -19,51 +17,44 @@ import java.util.ArrayList;
  * Created by ravneet on 1/7/17.
  */
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
     private Context context;
-    private ArrayList<Post> posts;
-
+    private ArrayList<Album> albumtitle;
     private OnItemClickListner onItemClickListner;
 
     public void setOnItemClickListner(OnItemClickListner onItemClickListner){
         this.onItemClickListner = onItemClickListner;
     }
 
-    public PostAdapter(Context context, ArrayList<Post> posts){
-
-        this.posts = posts;
+    private AlbumAdapter(Context context,ArrayList<Album> albumtitle){
+        this.albumtitle = albumtitle;
         this.context = context;
-
-
     }
 
-    public void updatePosts (ArrayList<Post> posts){
-
-        this.posts = posts;
+    public void updatealbum(ArrayList<Album> albumtitle){
+        this.albumtitle = albumtitle;
         notifyDataSetChanged();
     }
 
     @Override
-    public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+    public AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater li = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View itemView = li.inflate(R.layout.activity_post,parent,false);
-        return new PostViewHolder(itemView);
+        View itemview = li.inflate(R.layout.activity_album,parent,false);
+        return new AlbumViewHolder(itemview);
     }
 
     @Override
-    public void onBindViewHolder(PostViewHolder holder, int position) {
+    public void onBindViewHolder(AlbumViewHolder holder, int position) {
 
-        final Post thispost = posts.get(position);
+        final Album thisalbum = albumtitle.get(position);
 
-        holder.tv_title.setText(thispost.getTitle());
-        holder.tv_body.setText(thispost.getBody());
+        holder.albumtitle.setText(thisalbum.getTitle());
         holder.thisview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(onItemClickListner != null){
-                    onItemClickListner.onItemClick(thispost.getId());
+                    onItemClickListner.onItemClick(thisalbum.getId());
                 }
             }
         });
@@ -72,20 +63,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return albumtitle.size();
     }
 
-
-    class PostViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tv_title,tv_body;
+    class AlbumViewHolder extends RecyclerView.ViewHolder{
+        TextView albumtitle;
         View thisview;
 
-        public PostViewHolder(View itemView) {
+        public AlbumViewHolder(View itemView) {
             super(itemView);
-            tv_body = (TextView) itemView.findViewById(R.id.tv_post_body);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_post_task);
-
+            albumtitle = (TextView) itemView.findViewById(R.id.tv_album_title);
         }
     }
 }

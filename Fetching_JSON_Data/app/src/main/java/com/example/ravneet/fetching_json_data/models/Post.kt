@@ -5,5 +5,6 @@ package com.example.ravneet.fetching_json_data.models
  */
 data class Post(
         val title:String,
-        val body:String
+        val body:String,
+        val id:Int
 )
