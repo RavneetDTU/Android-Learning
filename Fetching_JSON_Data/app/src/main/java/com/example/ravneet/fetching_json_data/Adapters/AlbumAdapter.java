@@ -27,7 +27,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         this.onItemClickListner = onItemClickListner;
     }
 
-    private AlbumAdapter(Context context,ArrayList<Album> albumtitle){
+    public AlbumAdapter(Context context, ArrayList<Album> albumtitle){
         this.albumtitle = albumtitle;
         this.context = context;
     }
