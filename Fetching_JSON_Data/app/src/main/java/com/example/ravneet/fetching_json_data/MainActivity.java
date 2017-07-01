@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    ImageView user,post,album,todo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
