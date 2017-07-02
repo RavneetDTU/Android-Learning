@@ -4,13 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.ravneet.fetching_json_data.API.AlbumAPI;
 import com.example.ravneet.fetching_json_data.Adapters.AlbumAdapter;
 import com.example.ravneet.fetching_json_data.models.Album;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,8 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.example.ravneet.fetching_json_data.R.id.img_view_album;
 
 public class AlbumActivity extends AppCompatActivity {
 

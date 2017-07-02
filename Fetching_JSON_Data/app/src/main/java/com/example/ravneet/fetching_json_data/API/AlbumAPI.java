@@ -13,6 +13,6 @@ import retrofit2.http.GET;
 
 public interface AlbumAPI {
 
-    @GET("/albums")
+    @GET("/album")
     Call<ArrayList<Album>> getAlbum();
 }

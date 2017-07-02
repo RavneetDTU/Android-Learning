@@ -9,70 +9,77 @@ import android.widget.TextView;
 
 import com.example.ravneet.fetching_json_data.Interface.OnItemClickListner;
 import com.example.ravneet.fetching_json_data.R;
-import com.example.ravneet.fetching_json_data.models.Album;
+import com.example.ravneet.fetching_json_data.models.Photo;
 
 import java.util.ArrayList;
 
 /**
- * Created by ravneet on 1/7/17.
+ * Created by ravneet on 2/7/17.
  */
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
+public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
 
     private Context context;
-    private ArrayList<Album> albumtitle;
+    private ArrayList<Photo> photos;
     private OnItemClickListner onItemClickListner;
 
     public void setOnItemClickListner(OnItemClickListner onItemClickListner){
         this.onItemClickListner = onItemClickListner;
     }
 
-    public AlbumAdapter(Context context, ArrayList<Album> albumtitle){
-        this.albumtitle = albumtitle;
+    public PhotoAdapter(Context context,ArrayList<Photo> photos){
         this.context = context;
+        this.photos = photos;
     }
 
-    public void updatealbum(ArrayList<Album> albumtitle){
-        this.albumtitle = albumtitle;
+    public void updatephotos(ArrayList<Photo> photos){
+
+        this.photos = photos;
         notifyDataSetChanged();
+
     }
+
 
     @Override
-    public AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater li = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View itemview = li.inflate(R.layout.activity_album,parent,false);
-        return new AlbumViewHolder(itemview);
+
+        return new PhotoViewHolder(itemview);
     }
 
     @Override
-    public void onBindViewHolder(AlbumViewHolder holder, int position) {
+    public void onBindViewHolder(PhotoViewHolder holder, int position) {
 
-        final Album thisalbum = albumtitle.get(position);
+        final Photo thisphoto = photos.get(position);
 
-        holder.albumtitle.setText(thisalbum.getTitle());
+        holder.title.setText(thisphoto.getTitle());
         holder.thisview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(onItemClickListner != null){
-                    onItemClickListner.onItemClick(thisalbum.getId());
+                    onItemClickListner.onItemClick(thisphoto.getId());
                 }
             }
         });
+
+
 
     }
 
     @Override
     public int getItemCount() {
-        return albumtitle.size();
+        return 0;
     }
 
-    class AlbumViewHolder extends RecyclerView.ViewHolder{
-        TextView albumtitle;
+    class PhotoViewHolder extends RecyclerView.ViewHolder{
+
+        TextView title;
         View thisview;
 
-        public AlbumViewHolder(View itemView) {
+        public PhotoViewHolder(View itemView) {
             super(itemView);
-            albumtitle = (TextView) itemView.findViewById(R.id.tv_title_title);
+            title = (TextView) itemView.findViewById(R.id.tv_title_title);
         }
     }
 }

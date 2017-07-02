@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.ravneet.fetching_json_data.API.PhotoAPI;
 import com.example.ravneet.fetching_json_data.API.PostAPI;
+import com.example.ravneet.fetching_json_data.Adapters.PhotoAdapter;
 import com.example.ravneet.fetching_json_data.Adapters.PostAdapter;
+import com.example.ravneet.fetching_json_data.models.Photo;
 import com.example.ravneet.fetching_json_data.models.Post;
 
 import java.util.ArrayList;
@@ -17,41 +20,39 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PostActivity extends AppCompatActivity {
+public class PhotoActivity extends AppCompatActivity {
 
-    RecyclerView rvPosts;
-    PostAdapter postAdapter;
+    RecyclerView rvphotos;
+    PhotoAdapter photoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_item_post);
+        setContentView(R.layout.list_item_photos);
 
-        rvPosts = (RecyclerView) findViewById(R.id.rv_post);
-        rvPosts.setLayoutManager(new LinearLayoutManager(this));
+        rvphotos = (RecyclerView) findViewById(R.id.rv_photo);
+        rvphotos.setLayoutManager(new LinearLayoutManager(this));
 
-        postAdapter = new PostAdapter(this,new ArrayList<Post>());
-        rvPosts.setAdapter(postAdapter);
-
+        photoAdapter = new PhotoAdapter(this, new ArrayList<Photo>());
+        rvphotos.setAdapter(photoAdapter);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        final PostAPI postAPI = retrofit.create(PostAPI.class);
+        PhotoAPI photoAPI = retrofit.create(PhotoAPI.class);
 
-        postAPI.getPosts().enqueue(new Callback<ArrayList<Post>>() {
+        photoAPI.getPhotos().enqueue(new Callback<ArrayList<Photo>>() {
             @Override
-            public void onResponse(Call<ArrayList<Post>> call, Response<ArrayList<Post>> response) {
-                postAdapter.updatePosts(response.body());
+            public void onResponse(Call<ArrayList<Photo>> call, Response<ArrayList<Photo>> response) {
+                photoAdapter.updatephotos(response.body());
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Post>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Photo>> call, Throwable t) {
 
             }
         });
-
     }
 }
