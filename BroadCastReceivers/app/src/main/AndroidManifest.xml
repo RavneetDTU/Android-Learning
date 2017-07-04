@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ravneet.fetching_json_data">
-
-    <uses-permission android:name="android.permission.INTERNET" />
+    package="com.example.ravneet.broadcastreceivers">
 
     <application
         android:allowBackup="true"
@@ -18,13 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AlbumActivity" />
-        <activity android:name=".PostActivity" />
-        <activity android:name=".UserActivity" />
-        <activity android:name=".ToDoActivity" />
-        <activity android:name=".PhotoActivity" />
-        <activity android:name=".CommentActivity" />
-        <activity android:name=".LargeImageActivity"></activity>
+
+        <receiver
+            android:name=".PowerConnectedReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

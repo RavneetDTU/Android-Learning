@@ -2,6 +2,7 @@ package com.example.ravneet.fetching_json_data.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
  */
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder> {
+    
+    public static final String TAG = "Hello";
 
     private Context context;
     private ArrayList<ToDo> tasklist;
@@ -36,11 +39,15 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
     public void updatetasks(ArrayList<ToDo> tasklist){
         this.tasklist = tasklist;
+        notifyDataSetChanged();
     }
 
 
     @Override
     public ToDoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        Log.i(TAG, "onCreateViewHolder: ");
+        
         LayoutInflater li = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View itemview = li.inflate(R.layout.activity_to_do,parent,false);
         return new ToDoViewHolder(itemview);
@@ -48,6 +55,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
     @Override
     public void onBindViewHolder(ToDoViewHolder holder, int position) {
+
+        Log.i(TAG, "onBindViewHolder: ");
 
         final ToDo task = tasklist.get(position);
 
@@ -74,6 +83,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
         public ToDoViewHolder(View itemView) {
             super(itemView);
+            task = (TextView)itemView.findViewById(R.id.tv_todo_task);
+            thisview = itemView;
         }
     }
 }

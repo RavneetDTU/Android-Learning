@@ -85,6 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             super(itemView);
             tv_body = (TextView) itemView.findViewById(R.id.tv_post_body);
             tv_title = (TextView) itemView.findViewById(R.id.tv_post_task);
+            thisview = itemView;
 
         }
     }

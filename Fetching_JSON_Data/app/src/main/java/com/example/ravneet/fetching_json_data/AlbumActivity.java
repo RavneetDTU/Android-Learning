@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.ravneet.fetching_json_data.API.AlbumAPI;
 import com.example.ravneet.fetching_json_data.Adapters.AlbumAdapter;
@@ -19,8 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AlbumActivity extends AppCompatActivity {
 
-//    ImageView img_album1;
-//    TextView title;
+    public static final String TAG = "Hello";
+
 
     RecyclerView rvalbum;
     AlbumAdapter albumAdapter;
@@ -30,9 +31,6 @@ public class AlbumActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_item_album);
 
-//        img_album1 = (ImageView) findViewById(R.id.img_view_album);
-//
-//        Picasso.with(getApplicationContext()).load("Image URL").into(img_album1);
 
         rvalbum = (RecyclerView) findViewById(R.id.rv_album);
         rvalbum.setLayoutManager(new LinearLayoutManager(this));
@@ -50,12 +48,13 @@ public class AlbumActivity extends AppCompatActivity {
         albumAPI.getAlbum().enqueue(new Callback<ArrayList<Album>>() {
             @Override
             public void onResponse(Call<ArrayList<Album>> call, Response<ArrayList<Album>> response) {
+                Log.d("Error", "onResponse: "+response.body().size());
                 albumAdapter.updatealbum(response.body());
             }
 
             @Override
             public void onFailure(Call<ArrayList<Album>> call, Throwable t) {
-
+                Log.d("Error", "onFailure: ");
             }
         });
     }

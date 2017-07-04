@@ -13,6 +13,9 @@ import retrofit2.http.GET;
 
 public interface AlbumAPI {
 
-    @GET("/album")
+    @GET("/albums")
     Call<ArrayList<Album>> getAlbum();
+
+    @GET("/albums/{id}/photos")
+
 }

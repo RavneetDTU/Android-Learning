@@ -80,6 +80,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         public PhotoViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tv_title_title);
+            thisview = itemView;
         }
     }
 }

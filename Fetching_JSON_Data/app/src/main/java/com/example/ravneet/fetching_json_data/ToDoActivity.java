@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.ravneet.fetching_json_data.API.ToDoAPI;
 import com.example.ravneet.fetching_json_data.Adapters.ToDoAdapter;
@@ -19,6 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ToDoActivity extends AppCompatActivity {
 
+    public static final String TAG = "Hello";
+
     RecyclerView rvtodo;
     ToDoAdapter toDoAdapter;
 
@@ -26,6 +29,8 @@ public class ToDoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_item_todo);
+
+
 
         rvtodo = (RecyclerView) findViewById(R.id.rv_todo);
         rvtodo.setLayoutManager(new LinearLayoutManager(this));
@@ -40,16 +45,36 @@ public class ToDoActivity extends AppCompatActivity {
 
         ToDoAPI toDoAPI = retrofit.create(ToDoAPI.class);
 
-        toDoAPI.gettasks().enqueue(new Callback<ArrayList<ToDo>>() {
+        final Callback<ArrayList<ToDo>> todoCallback = new Callback<ArrayList<ToDo>>() {
             @Override
             public void onResponse(Call<ArrayList<ToDo>> call, Response<ArrayList<ToDo>> response) {
+                Log.i(TAG, "onResponse: ");
                 toDoAdapter.updatetasks(response.body());
             }
 
             @Override
             public void onFailure(Call<ArrayList<ToDo>> call, Throwable t) {
-
+                Log.i(TAG, "onFailure: "+t);
             }
-        });
+        };
+
+//        toDoAPI.gettasks().enqueue(new Callback<ArrayList<ToDo>>() {
+//            @Override
+//            public void onResponse(Call<ArrayList<ToDo>> call, Response<ArrayList<ToDo>> response) {
+//                toDoAdapter.updatetasks(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArrayList<ToDo>> call, Throwable t) {
+//
+//            }
+//        });
+
+        int userIdRecived = getIntent().getIntExtra("userId",-1);
+        if(userIdRecived != -1){
+            toDoAPI.getTodosbypostid(userIdRecived).enqueue(todoCallback);
+        }else {
+            toDoAPI.gettasks().enqueue(todoCallback);
+        }
     }
 }

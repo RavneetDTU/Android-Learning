@@ -80,6 +80,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             tvbody = (TextView) itemView.findViewById(R.id.tv_comment_body);
             tvname = (TextView) itemView.findViewById(R.id.tv_comment_name);
             tvemail = (TextView) itemView.findViewById(R.id.tv_comment_email);
+            thisview = itemView;
         }
     }
 }

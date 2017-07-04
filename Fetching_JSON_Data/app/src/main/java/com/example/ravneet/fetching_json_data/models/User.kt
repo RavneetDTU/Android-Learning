@@ -5,6 +5,7 @@ package com.example.ravneet.fetching_json_data.models
  */
 data class User(
         val id:Int,
+        val postID:Int,
         val username:String,
         val phone:String,
         val email:String

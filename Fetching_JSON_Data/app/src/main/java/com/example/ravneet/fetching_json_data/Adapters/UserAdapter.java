@@ -1,15 +1,20 @@
 package com.example.ravneet.fetching_json_data.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ravneet.fetching_json_data.CommentActivity;
 import com.example.ravneet.fetching_json_data.Interface.OnItemClickListner;
 import com.example.ravneet.fetching_json_data.R;
+import com.example.ravneet.fetching_json_data.ToDoActivity;
+import com.example.ravneet.fetching_json_data.models.Comment;
 import com.example.ravneet.fetching_json_data.models.User;
 
 import java.util.ArrayList;
@@ -65,6 +70,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
             }
         });
 
+        holder.btn_todo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), ToDoActivity.class);
+                i.putExtra("userId",thisuser.getId());
+                view.getContext().startActivity(i);
+            }
+        });
+
+        holder.btn_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), CommentActivity.class);
+                i.putExtra("userId",thisuser.getId());
+                view.getContext().startActivity(i);
+            }
+        });
+
 
     }
 
@@ -77,6 +100,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
     class UserHolder extends RecyclerView.ViewHolder{
 
         TextView tvusername,tvtel,tvemail;
+        Button btn_post,btn_todo;
         View thisview;
 
         public UserHolder(View itemView) {
@@ -86,6 +110,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
             tvusername = (TextView)itemView.findViewById(R.id.tv_user_username);
             tvtel = (TextView)itemView.findViewById(R.id.tv_user_contactnumber);
             tvemail = (TextView)itemView.findViewById(R.id.tv_user_email);
+            btn_post = (Button) itemView.findViewById(R.id.btn_activityuser_post);
+            btn_todo = (Button) itemView.findViewById(R.id.btn_activityuser_comments);
+            thisview = itemView;
+
 
         }
     }
