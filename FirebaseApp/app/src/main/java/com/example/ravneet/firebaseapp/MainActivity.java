@@ -1,6 +1,7 @@
 package com.example.ravneet.firebaseapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.example.ravneet.firebaseapp.FriendlyMessage;
 import com.example.ravneet.firebaseapp.MessageAdapter;
 import com.example.ravneet.firebaseapp.R;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +32,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ANONYMOUS = "anonymous";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
     public static final int RC_SIGN_IN = 1;
+    public static final int RC_PHOTO_PICKER = 2;
 
     private ListView mMessageListView;
     private MessageAdapter mMessageAdapter;
@@ -56,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private ChildEventListener mChildEventListner;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListner;
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mStorageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("message");
-
-
+        mFirebaseStorage = FirebaseStorage.getInstance();
 
         // Initialize references to views
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -76,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
         mMessageEditText = (EditText) findViewById(R.id.messageEditText);
         mSendButton = (Button) findViewById(R.id.sendButton);
+
+        mDatabaseReference = mFirebaseDatabase.getReference().child("message");
+        mStorageReference = mFirebaseStorage.getReference().child("chat_photos");
 
         // Initialize message ListView and its adapter
         List<FriendlyMessage> friendlyMessages = new ArrayList<>();
@@ -120,6 +129,16 @@ public class MainActivity extends AppCompatActivity {
                 FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(),mUsername,null);
                 mDatabaseReference.push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
+            }
+        });
+
+        mPhotoPickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.setType("image/*");
+                i.putExtra(i.EXTRA_LOCAL_ONLY,true);
+                startActivityForResult(i.createChooser(i,"Complete Action Using"),RC_PHOTO_PICKER);
             }
         });
 
@@ -241,12 +260,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if( requestCode == RC_SIGN_IN){
-            if(requestCode == RESULT_OK){
+            if(resultCode == RESULT_OK){
                 Toast.makeText(MainActivity.this,"Signed In",Toast.LENGTH_SHORT).show();
             }
-            else if(requestCode == RESULT_CANCELED){
+            else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(MainActivity.this,"Signed In Cancled",Toast.LENGTH_SHORT).show();
                 finish();
+            } else if (resultCode == RESULT_OK && requestCode == RC_PHOTO_PICKER) {
+
+                Uri selectedImageUri = data.getData();
+                StorageReference photoref = mStorageReference.child(selectedImageUri.getLastPathSegment());
+
+                photoref.putFile(selectedImageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                        FriendlyMessage friendlyMessage = new FriendlyMessage(null,mUsername,downloadUrl.toString());
+                        mDatabaseReference.push().setValue(friendlyMessage);
+                    }
+                });
             }
         }
     }
