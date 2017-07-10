@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ProfileActivity extends AppCompatActivity {
 
     TextView tv_username;
-    Button btn_logout,btn_adddata;
+    Button btn_logout,btn_adddata,btn_upload;
     EditText et_name,et_adderss;
 
     private FirebaseAuth firebaseAuth;
@@ -31,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
         tv_username = (TextView) findViewById(R.id.tv_useremail);
         btn_logout = (Button) findViewById(R.id.btn_logout);
         btn_adddata = (Button) findViewById(R.id.btn_addData);
+        btn_upload = (Button) findViewById(R.id.btn_upload);
         et_name = (EditText) findViewById(R.id.et_name);
         et_adderss = (EditText) findViewById(R.id.et_address);
 
@@ -44,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        tv_username.setText("Welcome..... "+user.getEmail());
+        tv_username.setText("Welcome...... "+user.getEmail());
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +63,13 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this,UploadActivity.class));
+            }
+        });
+
 
     }
 
@@ -76,7 +84,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         databaseReference.child(user.getUid()).setValue(userInformation);
 
-        Toast.makeText(this,"Information Saved....",Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(ProfileActivity.this,"Data Saving...",Toast.LENGTH_SHORT).show();
     }
 }
