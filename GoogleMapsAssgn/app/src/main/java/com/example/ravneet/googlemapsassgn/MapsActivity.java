@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationListener;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,11 +35,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private GoogleMap mMap;
     EditText et_location, et_destination;
-    Button btn_search,btn_mark;
+    Button btn_search, btn_mark;
     ZoomControls zoom;
     Double myLatitude = null;
     Double myLongitude = null;
@@ -47,6 +49,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
 
     public static final int MY_PERMISSION_FINE_LOCATION = 101;
+
+    public static final String TAG = "Maps";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +68,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        locationRequest = new LocationRequest(this);
-        locationRequest.setInterval(15*1000);
-        locationRequest.setFastestInterval(5*1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(15 * 1000);
+        locationRequest.setFastestInterval(5 * 1000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        // for Virtual Devices Use HIGH_ACCURACY
 
         et_location = (EditText) findViewById(R.id.et_location);
         btn_search = (Button) findViewById(R.id.btn_search);
@@ -91,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
 
-                LatLng mylocation = new LatLng(myLatitude,myLongitude);
+                 LatLng mylocation = new LatLng(myLatitude, myLongitude);
                 mMap.addMarker(new MarkerOptions().position(mylocation).title("My Location"));
             }
         });
@@ -122,15 +127,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
-
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        onMapReady(mMap);
     }
 
     /**
@@ -189,8 +185,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.setMyLocationEnabled(true);
                     }
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"This App Require Location Permission",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "This App Require Location Permission", Toast.LENGTH_LONG).show();
                     finish();
                 }
                 break;
@@ -199,16 +195,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        requestLocationUpdate();
+    }
+
+    private void requestLocationUpdate() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, (com.google.android.gms.location.LocationListener) this);
+        }
 
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.i(TAG, "Connection Suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.i(TAG, "onConnectionFailed: Error Code is: "+connectionResult.getErrorCode());
+    }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        myLatitude = location.getLatitude();
+        myLongitude = location.getLongitude();
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(googleApiClient.isConnected()){
+            requestLocationUpdate();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, (com.google.android.gms.location.LocationListener) this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        googleApiClient.disconnect();
     }
 }
