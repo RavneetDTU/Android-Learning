@@ -159,11 +159,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            mMap.setMyLocationEnabled(true);
-        } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_FINE_LOCATION);
             }
+        } else {
+            mMap.setMyLocationEnabled(true);
         }
     }
 
@@ -251,13 +251,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, (com.google.android.gms.location.LocationListener) this);
-        }
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, (com.google.android.gms.location.LocationListener) this);
+//        }
+//    }
 
     @Override
     protected void onStop() {
