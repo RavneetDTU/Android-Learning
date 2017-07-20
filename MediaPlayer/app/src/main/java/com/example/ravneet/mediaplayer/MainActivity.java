@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mp.start();
     }
 
     @Override
