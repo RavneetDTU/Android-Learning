@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "658693820035",
+    "firebase_url": "https://chatapp-5e679.firebaseio.com",
+    "project_id": "chatapp-5e679",
+    "storage_bucket": "chatapp-5e679.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658693820035:android:cd902ed00a3bb348",
+        "android_client_info": {
+          "package_name": "com.example.ravneet.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658693820035-dl72jndq0gbpfffl6l5t4nblnfuqqdnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ravneet.chatapp",
+            "certificate_hash": "61ad3b53013dca8f36f39ddd45c7151a694ac936"
+          }
+        },
+        {
+          "client_id": "658693820035-ci547oki9pu5o3lkkhe5k839gvm5josj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg1DhlTDez6RlbFX_m8LNB7M4l4mG2WsA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658693820035-ci547oki9pu5o3lkkhe5k839gvm5josj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658693820035:android:2926855536174bbe",
+        "android_client_info": {
+          "package_name": "com.mafitness.tabbedactivity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658693820035-p8nj7idk8t07a1qvvqb2hvljmcoej7a0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mafitness.tabbedactivity",
+            "certificate_hash": "61ad3b53013dca8f36f39ddd45c7151a694ac936"
+          }
+        },
+        {
+          "client_id": "658693820035-ci547oki9pu5o3lkkhe5k839gvm5josj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg1DhlTDez6RlbFX_m8LNB7M4l4mG2WsA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658693820035-ci547oki9pu5o3lkkhe5k839gvm5josj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
